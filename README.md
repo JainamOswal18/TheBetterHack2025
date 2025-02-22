@@ -8,3 +8,7 @@ uvicorn app:app --reload
 
 
 
+To run frontend
+npm i
+npm run build
+npm start
