@@ -3,11 +3,17 @@ import fitz  # PyMuPDF
 import io
 import requests
 from supabase import create_client, Client
+from agents import score_resume  # Importing the scoring function
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Supabase Configuration
-SUPABASE_URL = "https://mntnayhgfvauknsvzdqh.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1udG5heWhnZnZhdWtuc3Z6ZHFoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MDIwMDY1OSwiZXhwIjoyMDU1Nzc2NjU5fQ.xGM_2lZTYZfsydj8hFK6yJ3IzUKqE-Hz-nXcbWL94gU"  # Use service role key for DB writes
-SUPABASE_BUCKET = "resume"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_BUCKET = os.getenv("SUPABASE_BUCKET")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -55,15 +61,50 @@ async def submit_resume(
         except Exception as e:
             return {"error": f"Failed to upload to storage: {str(e)}"}
 
-        # Store Candidate Info in Supabase Database
+        # Hardcoded Job Description
+        job_description = """📌 Job Title: Data Science Fresher
+
+            🔍 Job Requirements
+            1️⃣ Skills (Technical & Soft Skills):
+
+            Programming: Python, R, or SQL for data analysis and manipulation.
+            Machine Learning: Knowledge of supervised & unsupervised learning, feature engineering, and model evaluation.
+            Statistics & Mathematics: Understanding of probability, linear algebra, and hypothesis testing.
+            Data Visualization: Experience with Matplotlib, Seaborn, Tableau, or Power BI.
+            Big Data (Preferred): Basics of Hadoop, Spark, or cloud-based analytics (AWS, GCP, Azure).
+            Soft Skills: Analytical thinking, problem-solving, and communication skills.
+            2️⃣ Experience:
+
+            Years of Experience: 0-2 years (Entry-Level / Fresher Role).
+            Preferred: Internship, freelance projects, research work, or Kaggle competitions in Data Science.
+            Bonus: Experience with open-source contributions or participation in hackathons.
+            3️⃣ Educational Qualifications:
+
+            Degree Required: Bachelor’s or Master’s in Computer Science, Data Science, Statistics, Mathematics, AI, or related field.
+            Certifications (Preferred but Not Mandatory): Coursera, Udacity, IBM Data Science, Google Data Analytics, or equivalent.
+            4️⃣ Additional Requirements:
+
+            Passion for data-driven decision-making.
+            Ability to adapt and learn new technologies quickly.
+            Familiarity with cloud platforms (AWS, Azure, GCP) is an added advantage.
+            """
+
+        # Call the score_resume function
+        scoring_result = score_resume(text_content, job_description, links)
+
+        # Update the data dictionary with the evaluation scores
         data = {
             "user_name": name,
             "user_email": email,
             "resume_url": resume_url,
-            "match_percentage": 0.0  # Default, update after processing
+            "parameter_score": scoring_result["Parameter Score"],
+            "job_similarity_score": scoring_result["Job Similarity Score"],
+            "github_score": scoring_result["GitHub Score"],
+            "total_score": scoring_result["Total Score"]
         }
         
         try:
+            # Insert data into Supabase with all scores
             response = supabase.table("candidates").insert(data).execute()
         except Exception as e:
             return {"error": f"Failed to store in database: {str(e)}"}
@@ -74,7 +115,8 @@ async def submit_resume(
             "resume_url": resume_url,
             "extracted_text": text_content,
             "extracted_links": links,
-            "message": "Resume uploaded and stored successfully"
+            "evaluation": scoring_result,
+            "message": "Resume uploaded, stored, and evaluated successfully."
         }
     except Exception as e:
         return {"error": f"Failed to process resume: {str(e)}"}
