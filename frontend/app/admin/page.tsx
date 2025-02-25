@@ -95,6 +95,17 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      toast.success('Logged out successfully');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast.error('Failed to logout');
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -111,9 +122,17 @@ export default function AdminDashboard() {
             <h1 className="text-4xl font-bold text-primary">Admin Dashboard</h1>
             <p className="text-muted-foreground mt-2">Manage and review candidate applications</p>
           </div>
-          <div className="bg-card rounded-lg p-4 shadow-md">
-            <p className="text-sm text-muted-foreground">Total Applications</p>
-            <p className="text-2xl font-bold text-primary">{candidates.length}</p>
+          <div className="flex gap-4 items-center">
+            <div className="bg-card rounded-lg p-4 shadow-md">
+              <p className="text-sm text-muted-foreground">Total Applications</p>
+              <p className="text-2xl font-bold text-primary">{candidates.length}</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors duration-200"
+            >
+              Logout
+            </button>
           </div>
         </div>
 
