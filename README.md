@@ -37,6 +37,8 @@ An AI-powered resume scoring system that evaluates resumes against job descripti
    SUPABASE_BUCKET="resume"
    GITHUB_API_TOKEN="your_github_token"
    OPENAI_API_KEY="your_openai_api_key"
+   # or
+   GEMINI_API_KEY="your_gemini_api_key"
    ```
 
    `.env.local` (for frontend):

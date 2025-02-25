@@ -1,19 +1,27 @@
 import requests
 import re
 import os
-from smolagents import OpenAIServerModel, CodeAgent, HfApiModel, DuckDuckGoSearchTool
+from smolagents import CodeAgent, DuckDuckGoSearchTool, LiteLLMModel
+# from smolagents import OpenAIServerModel
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
 
-api_key = os.getenv("OPENAI_API_KEY")
+# api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY")
 
 # Initialize the model
-model = OpenAIServerModel(
-    model_id="gpt-4o",
-    api_key=api_key  # Securely retrieved API key
+
+model = LiteLLMModel(
+    model_id="gemini/gemini-2.0-flash",
+    api_key=api_key
 )
+
+# model = OpenAIServerModel(
+#     model_id="gpt-4o",
+#     api_key=api_key  # Securely retrieved API key
+# )
 agent = CodeAgent(tools=[DuckDuckGoSearchTool()], model=model)
 
 
