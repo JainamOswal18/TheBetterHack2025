@@ -63,12 +63,12 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16">
+          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-4 sm:mb-6">
             Join Our Team
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed px-4">
             We're looking for talented individuals to help shape the future of technology. 
             {jobs.length === 1 
               ? "Explore our current opening and take the next step in your career journey."
@@ -77,23 +77,23 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           {jobs.map((job) => (
             <div 
               key={job.job_id}
-              className="bg-card rounded-2xl shadow-lg border border-border/50 overflow-hidden hover:shadow-xl transition-all duration-300"
+              className="bg-card rounded-xl sm:rounded-2xl shadow-lg border border-border/50 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
               {/* Job Header */}
-              <div className="bg-primary/5 border-b border-border/50 p-8">
-                <div className="flex items-start gap-6">
-                  <div className="bg-primary/10 p-4 rounded-xl">
-                    <Briefcase className="h-8 w-8 text-primary" />
+              <div className="bg-primary/5 border-b border-border/50 p-6 sm:p-8">
+                <div className="flex items-start gap-4 sm:gap-6">
+                  <div className="bg-primary/10 p-3 sm:p-4 rounded-xl">
+                    <Briefcase className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-semibold text-card-foreground mb-2">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text-card-foreground mb-2">
                       {job.job_title}
                     </h2>
-                    <p className="text-lg text-muted-foreground">
+                    <p className="text-base sm:text-lg text-muted-foreground">
                       {job.job_details}
                     </p>
                   </div>
@@ -101,8 +101,8 @@ export default function Home() {
               </div>
 
               {/* Job Details */}
-              <div className="p-8">
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="p-6 sm:p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                   <div className="space-y-6">
                     <div className="bg-secondary/20 rounded-xl p-6">
                       <div className="flex items-center gap-3 mb-4">
@@ -153,7 +153,7 @@ export default function Home() {
                 <div className="flex justify-center">
                   <Link
                     href={`/apply/${job.job_id}`}
-                    className="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl text-lg font-medium"
+                    className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg font-medium w-full sm:w-auto justify-center"
                   >
                     Apply for this Position
                     <ChevronRight className="ml-2 h-5 w-5" />

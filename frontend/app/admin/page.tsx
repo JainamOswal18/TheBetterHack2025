@@ -119,48 +119,48 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="flex justify-between items-center mb-12 bg-card rounded-2xl p-6 shadow-lg border border-border/50">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 lg:justify-between items-start lg:items-center mb-8 sm:mb-12 bg-card rounded-2xl p-4 sm:p-6 shadow-lg border border-border/50">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               Admin Dashboard
             </h1>
             <p className="text-muted-foreground mt-2">Manage and review candidate applications</p>
           </div>
-          <div className="flex gap-6 items-center">
-            <div className="bg-primary/10 rounded-2xl p-6 shadow-inner">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center w-full lg:w-auto">
+            <div className="bg-primary/10 rounded-2xl p-4 sm:p-6 shadow-inner w-full sm:w-auto">
               <p className="text-sm text-primary/70 font-medium">Total Applications</p>
-              <p className="text-4xl font-bold text-primary mt-1">{candidates.length}</p>
+              <p className="text-3xl sm:text-4xl font-bold text-primary mt-1">{candidates.length}</p>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-row sm:flex-col gap-3 w-full sm:w-auto">
               <Link
                 href="/"
-                className="bg-secondary/80 text-secondary-foreground px-6 py-2.5 rounded-lg hover:bg-secondary/70 transition-all duration-200 flex items-center gap-2 shadow-md"
+                className="flex-1 sm:flex-none bg-secondary/80 text-secondary-foreground px-4 sm:px-6 py-2.5 rounded-lg hover:bg-secondary/70 transition-all duration-200 flex items-center justify-center gap-2 shadow-md"
               >
                 <Briefcase className="h-4 w-4" />
-                Home
+                <span>Home</span>
               </Link>
               <button
                 onClick={handleLogout}
-                className="bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-lg hover:bg-primary/80 transition-all duration-200 flex items-center gap-2 shadow-md"
+                className="flex-1 sm:flex-none bg-primary/90 text-primary-foreground px-4 sm:px-6 py-2.5 rounded-lg hover:bg-primary/80 transition-all duration-200 flex items-center justify-center gap-2 shadow-md"
               >
                 <ExternalLink className="h-4 w-4" />
-                Logout
+                <span>Logout</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* Candidates Grid */}
-        <div className="grid gap-6">
+        <div className="grid gap-4 sm:gap-6">
           {candidates.map((candidate) => (
             <div
               key={candidate.id}
-              className="bg-card rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-border/50 hover:border-border group"
+              className="bg-card rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-border/50 hover:border-border group"
             >
-              <div className="p-8">
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+              <div className="p-4 sm:p-8">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-8">
                   {/* Candidate Info Section */}
-                  <div className="flex-1 min-w-[300px]">
+                  <div className="flex-1 min-w-0 lg:min-w-[300px]">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="bg-primary/10 rounded-2xl p-4 group-hover:bg-primary/20 transition-colors duration-300">
                         <span className="text-2xl font-bold text-primary">
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Scores Section */}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 flex-1">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 flex-1">
                     <ScoreCard
                       icon={<Star className="h-6 w-6" />}
                       title="Parameter Score"
@@ -213,57 +213,59 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Actions Section */}
-                  <div className="flex flex-col gap-3 min-w-[160px]">
+                  <div className="flex flex-row lg:flex-col gap-2 lg:gap-3 min-w-0 lg:min-w-[160px]">
                     {!candidate.isAccepted && (
-                      <div className="flex gap-2 mb-2">
+                      <div className="flex gap-2 flex-1 lg:flex-none">
                         <button
                           onClick={() => handleAccept(candidate.id, candidate.user_name)}
-                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 shadow-md hover:shadow-lg text-sm sm:text-base"
                         >
-                          <Check className="h-5 w-5" />
-                          Accept
+                          <Check className="h-4 w-4 sm:h-5 sm:w-5" />
+                          <span className="hidden sm:inline">Accept</span>
                         </button>
                         <button
                           onClick={() => handleReject(candidate.id, candidate.resume_url, candidate.user_name)}
-                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg text-sm sm:text-base"
                         >
-                          <X className="h-5 w-5" />
-                          Reject
+                          <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                          <span className="hidden sm:inline">Reject</span>
                         </button>
                       </div>
                     )}
-                    <a
-                      href={candidate.resume_url}
-                      download={`${candidate.user_name}_resume.pdf`}
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        try {
-                          const response = await fetch(candidate.resume_url);
-                          const blob = await response.blob();
-                          const url = window.URL.createObjectURL(blob);
-                          const link = document.createElement('a');
-                          link.href = url;
-                          link.download = `${candidate.user_name}_resume.pdf`;
-                          document.body.appendChild(link);
-                          link.click();
-                          document.body.removeChild(link);
-                          window.URL.revokeObjectURL(url);
-                        } catch (error) {
-                          console.error('Error downloading resume:', error);
-                        }
-                      }}
-                      className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg"
-                    >
-                      <FileText className="h-5 w-5" />
-                      Download CV
-                    </a>
-                    <button
-                      onClick={() => window.open(candidate.resume_url, '_blank')}
-                      className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-all duration-200 shadow-md hover:shadow-lg"
-                    >
-                      <ExternalLink className="h-5 w-5" />
-                      View Online
-                    </button>
+                    <div className="flex gap-2 flex-1 lg:flex-none">
+                      <a
+                        href={candidate.resume_url}
+                        download={`${candidate.user_name}_resume.pdf`}
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          try {
+                            const response = await fetch(candidate.resume_url);
+                            const blob = await response.blob();
+                            const url = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = `${candidate.user_name}_resume.pdf`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            window.URL.revokeObjectURL(url);
+                          } catch (error) {
+                            console.error('Error downloading resume:', error);
+                          }
+                        }}
+                        className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg text-sm sm:text-base"
+                      >
+                        <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span className="hidden sm:inline">Download CV</span>
+                      </a>
+                      <button
+                        onClick={() => window.open(candidate.resume_url, '_blank')}
+                        className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-all duration-200 shadow-md hover:shadow-lg text-sm sm:text-base"
+                      >
+                        <ExternalLink className="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span className="hidden sm:inline">View Online</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
