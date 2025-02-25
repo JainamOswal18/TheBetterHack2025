@@ -37,7 +37,7 @@ An AI-powered resume scoring system that evaluates resumes against job descripti
    SUPABASE_BUCKET="resume"
    GITHUB_API_TOKEN="your_github_token"
    OPENAI_API_KEY="your_openai_api_key"
-   # or
+   or
    GEMINI_API_KEY="your_gemini_api_key"
    ```
 
@@ -51,7 +51,7 @@ An AI-powered resume scoring system that evaluates resumes against job descripti
    ```bash
    # Create and activate virtual environment
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate  # On Windows: . venv/Scripts/activate
    
    # Install dependencies
    pip install -r requirements.txt
