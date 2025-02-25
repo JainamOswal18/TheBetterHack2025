@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import supabase from '@/lib/supabase';
-import { Briefcase, ChevronRight, Code, GraduationCap, Clock } from 'lucide-react';
+import { Briefcase, ChevronRight, Code, GraduationCap, Clock, Search, Building } from 'lucide-react';
 import Link from 'next/link';
 
 interface JobDetails {
@@ -41,67 +41,124 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-background">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-primary mb-4">
-            Find Your Dream Job
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
+      {/* Header with Admin Link */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex justify-end">
+          <Link
+            href="/admin"
+            className="inline-flex items-center px-4 py-2 bg-secondary/80 text-secondary-foreground rounded-lg hover:bg-secondary/70 transition-all duration-200 shadow-md"
+          >
+            <Building className="mr-2 h-4 w-4" />
+            Admin Dashboard
+          </Link>
+        </div>
+      </div>
+
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
+            Join Our Team
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Explore exciting opportunities and take the next step in your career
+          <p className="text-xl text-muted-foreground leading-relaxed">
+            We're looking for talented individuals to help shape the future of technology. 
+            {jobs.length === 1 
+              ? "Explore our current opening and take the next step in your career journey."
+              : `Explore our ${jobs.length} open positions and take the next step in your career journey.`
+            }
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="max-w-4xl mx-auto space-y-8">
           {jobs.map((job) => (
-            <div
+            <div 
               key={job.job_id}
-              className="bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+              className="bg-card rounded-2xl shadow-lg border border-border/50 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
-              <div className="p-6">
-                <div className="flex items-center mb-4">
-                  <Briefcase className="h-6 w-6 text-primary mr-2" />
-                  <h2 className="text-xl font-semibold text-card-foreground">
-                    {job.job_title}
-                  </h2>
-                </div>
-                <p className="text-muted-foreground mb-4 line-clamp-3">
-                  {job.job_details}
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-start gap-2">
-                    <Code className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      <strong>Skills:</strong> {job.skills_requirement}
-                    </p>
+              {/* Job Header */}
+              <div className="bg-primary/5 border-b border-border/50 p-8">
+                <div className="flex items-start gap-6">
+                  <div className="bg-primary/10 p-4 rounded-xl">
+                    <Briefcase className="h-8 w-8 text-primary" />
                   </div>
-                  <div className="flex items-start gap-2">
-                    <GraduationCap className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      <strong>Education:</strong> {job.education_requirement}
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Clock className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      <strong>Experience:</strong> {job.experience_requirement}
+                  <div>
+                    <h2 className="text-3xl font-semibold text-card-foreground mb-2">
+                      {job.job_title}
+                    </h2>
+                    <p className="text-lg text-muted-foreground">
+                      {job.job_details}
                     </p>
                   </div>
                 </div>
-                <Link
-                  href={`/apply/${job.job_id}`}
-                  className="inline-flex items-center justify-center w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-200"
-                >
-                  Apply Now
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </Link>
+              </div>
+
+              {/* Job Details */}
+              <div className="p-8">
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                  <div className="space-y-6">
+                    <div className="bg-secondary/20 rounded-xl p-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Code className="h-6 w-6 text-primary" />
+                        <h3 className="text-lg font-semibold text-primary">Required Skills</h3>
+                      </div>
+                      <p className="text-muted-foreground">
+                        {job.skills_requirement}
+                      </p>
+                    </div>
+
+                    <div className="bg-secondary/20 rounded-xl p-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <GraduationCap className="h-6 w-6 text-primary" />
+                        <h3 className="text-lg font-semibold text-primary">Education</h3>
+                      </div>
+                      <p className="text-muted-foreground">
+                        {job.education_requirement}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="bg-secondary/20 rounded-xl p-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Clock className="h-6 w-6 text-primary" />
+                        <h3 className="text-lg font-semibold text-primary">Experience</h3>
+                      </div>
+                      <p className="text-muted-foreground">
+                        {job.experience_requirement}
+                      </p>
+                    </div>
+
+                    {job.additional_requirements && (
+                      <div className="bg-secondary/20 rounded-xl p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                          <Search className="h-6 w-6 text-primary" />
+                          <h3 className="text-lg font-semibold text-primary">Additional Requirements</h3>
+                        </div>
+                        <p className="text-muted-foreground">
+                          {job.additional_requirements}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex justify-center">
+                  <Link
+                    href={`/apply/${job.job_id}`}
+                    className="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl text-lg font-medium"
+                  >
+                    Apply for this Position
+                    <ChevronRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
