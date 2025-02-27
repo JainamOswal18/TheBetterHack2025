@@ -6,6 +6,7 @@ from supabase import create_client, Client
 from agents import score_resume  # Importing the scoring function
 from dotenv import load_dotenv
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,7 +18,16 @@ SUPABASE_BUCKET = os.getenv("SUPABASE_BUCKET")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-app = FastAPI()  
+app = FastAPI()
+
+# # Add CORS middleware configuration
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["https://resume-scorer.jainamoswal.tech"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 @app.get("/")  
 def read_root():  
@@ -80,7 +90,7 @@ async def submit_resume(
             Bonus: Experience with open-source contributions or participation in hackathons.
             3️⃣ Educational Qualifications:
 
-            Degree Required: Bachelor’s or Master’s in Computer Science, Data Science, Statistics, Mathematics, AI, or related field.
+            Degree Required: Bachelor's or Master's in Computer Science, Data Science, Statistics, Mathematics, AI, or related field.
             Certifications (Preferred but Not Mandatory): Coursera, Udacity, IBM Data Science, Google Data Analytics, or equivalent.
             4️⃣ Additional Requirements:
 
