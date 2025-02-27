@@ -99,8 +99,11 @@ async def submit_resume(
             Familiarity with cloud platforms (AWS, Azure, GCP) is an added advantage.
             """
 
+        print("extracted text");
         # Call the score_resume function
         scoring_result = score_resume(text_content, job_description, links)
+
+        print("scored result");
 
         # Update the data dictionary with the evaluation scores
         data = {
@@ -118,6 +121,8 @@ async def submit_resume(
             response = supabase.table("candidates").insert(data).execute()
         except Exception as e:
             return {"error": f"Failed to store in database: {str(e)}"}
+
+        print("stored in database");
 
         return {
             "name": name,
