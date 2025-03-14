@@ -39,6 +39,9 @@ export default function AdminAuth() {
         <h1 className="text-2xl font-bold text-primary mb-6 text-center">Admin Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
+            <h3>Guess Credentials</h3>
+            <h3>Email: admin@admin.com</h3>
+            <h3>Password: admin</h3>
             <label htmlFor="email" className="block text-sm font-medium text-card-foreground mb-1">
               Email
             </label>
